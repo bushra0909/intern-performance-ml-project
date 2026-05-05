@@ -1,37 +1,48 @@
-import streamlit as st   # for creating web app UI
-import pandas as pd      # for data handling (not heavily used here)
-import pickle            # for loading saved ML model
-
-# Load the trained machine learning model
 import streamlit as st
+import pandas as pd
+import joblib
+import os
 
-st.title("App is working environment check ✔")
-st.write("Dependencies installed correctly.")
-
-# App title displayed on web page
+# -------------------------------
+# App Title
+# -------------------------------
 st.title("Intern Performance Prediction System")
 
-# User input fields
-time = st.number_input("Task Completion Time")   # input: time taken
-feedback = st.number_input("Feedback Rating")    # input: feedback score
-attendance = st.number_input("Attendance")       # input: attendance %
+# -------------------------------
+# Load trained ML model safely
+# (fixes Streamlit Cloud path issue)
+# -------------------------------
 
-# Run prediction when button is clicked
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # current file directory
+model_path = os.path.join(BASE_DIR, "model.pkl")       # model file path
+
+model = joblib.load(model_path)
+
+# -------------------------------
+# Input features from user
+# -------------------------------
+time = st.number_input("Task Completion Time")     # time taken to complete task
+feedback = st.number_input("Feedback Rating")      # performance feedback score
+attendance = st.number_input("Attendance")         # attendance percentage
+
+# -------------------------------
+# Prediction section
+# -------------------------------
 if st.button("Predict"):
-    
-    # Prepare input in required format (2D array)
+
+    # convert inputs into model format
     input_data = [[time, feedback, attendance]]
-    
-    # Predict performance using trained model
+
+    # make prediction using trained model
     prediction = model.predict(input_data)
 
-    # Display numeric prediction (rounded to 2 decimals)
+    # show numeric prediction
     st.write("Predicted Performance:", round(prediction[0], 2))
 
-    # Convert prediction into readable category
+    # classification logic
     if prediction[0] >= 0.7:
-        st.success("Excel ⭐")          # high performance
+        st.success("Excellent ⭐")   # high performer
     elif prediction[0] >= 0.4:
-        st.warning("Average ⚠️")       # medium performance
+        st.warning("Average ⚠️")     # medium performer
     else:
-        st.error("Struggling ❌")      # low performance
+        st.error("Struggling ❌")    # low performer
