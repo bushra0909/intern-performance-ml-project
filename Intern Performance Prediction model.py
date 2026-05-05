@@ -16,4 +16,6 @@ for p in predictions:
     elif p >= 0.4:
         print(f"{p:.2f} → AVERAGE ⚠️")
     else:
-        print(f"{p:.2f} → STRUGGLING ❌")odel.pkl","wb"))
+        print(f"{p:.2f} → STRUGGLING ❌")
+import pickle
+pickle.dump(model,open("model.pkl","wb"))
