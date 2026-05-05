@@ -3,7 +3,10 @@ import pandas as pd      # for data handling (not heavily used here)
 import pickle            # for loading saved ML model
 
 # Load the trained machine learning model
-model = pickle.load(open("model.pkl", "rb"))
+import streamlit as st
+
+st.title("App is working environment check ✔")
+st.write("Dependencies installed correctly.")
 
 # App title displayed on web page
 st.title("Intern Performance Prediction System")
