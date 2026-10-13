@@ -28,6 +28,7 @@ Random Forest Regressor (Machine Learning - Ensemble Method)
 - Python
 - Pandas
 - Scikit-learn
+- streamlit UI
 
 ## Output
 
